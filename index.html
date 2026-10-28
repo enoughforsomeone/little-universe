@@ -1,0 +1,480 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Little Universe — For My Cheche</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap');
+
+:root {
+  --bg:#080d18;
+  --panel:#101827;
+  --white:#f2efe8;
+  --muted:#9aa5b7;
+  --gold:#d6bd86;
+  --line:#283247;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--bg);color:var(--white);
+  font-family:'DM Sans',sans-serif;overflow-x:hidden;
+}
+button{font:inherit}
+a{color:inherit;text-decoration:none}
+
+#stars{position:fixed;inset:0;z-index:0;pointer-events:none}
+
+nav{
+  height:76px;padding:0 7%;display:flex;align-items:center;
+  justify-content:space-between;border-bottom:1px solid #ffffff0b;
+  background:#080d18e8;backdrop-filter:blur(18px);
+  position:sticky;top:0;z-index:20;
+}
+.brand{font:400 20px 'Playfair Display',serif;white-space:nowrap}
+.brand span{color:var(--gold)}
+.nav-links{display:flex;gap:25px;font-size:12px;color:var(--muted)}
+.nav-links a:hover{color:var(--gold)}
+
+.hero{
+  min-height:680px;padding:100px 24px 110px;display:flex;
+  justify-content:center;align-items:center;text-align:center;
+  position:relative;z-index:1;
+}
+.hero-inner{max-width:760px}
+.eyebrow{
+  color:var(--gold);font-size:10px;letter-spacing:4px;
+  text-transform:uppercase;
+}
+h1{
+  font:400 clamp(52px,9vw,100px)/1.03 'Playfair Display',serif;
+  letter-spacing:-2px;margin:28px 0;
+}
+h1 em{color:var(--gold);font-weight:400}
+.hero p{
+  max-width:480px;margin:auto;color:var(--muted);
+  line-height:1.9;font-size:14px;
+}
+.btn{
+  border:1px solid var(--gold);padding:15px 23px;margin-top:30px;
+  display:inline-block;background:var(--gold);color:#121622;
+  cursor:pointer;font-size:12px;letter-spacing:.5px;transition:.25s;
+}
+.btn:hover{background:transparent;color:var(--gold);transform:translateY(-3px)}
+.btn.outline{background:transparent;color:var(--white);border-color:var(--line)}
+.btn.outline:hover{border-color:var(--gold);color:var(--gold)}
+
+.orbit{
+  height:180px;width:180px;margin:55px auto 0;
+  border:1px solid #d6bd863a;border-radius:50%;
+  display:grid;place-items:center;position:relative;
+}
+.orbit:before{
+  content:'';position:absolute;inset:20px;border:1px dashed #d6bd8640;
+  border-radius:50%;animation:rotate 35s linear infinite;
+}
+.orbit-core{
+  width:75px;height:75px;display:grid;place-items:center;
+  background:radial-gradient(circle,#d6bd86,#a1844e);
+  color:#111827;border-radius:50%;font-size:25px;
+  box-shadow:0 0 60px #d6bd8628;
+}
+.orbit-dot{position:absolute;width:9px;height:9px;border-radius:50%;background:var(--gold)}
+.orbit-dot.one{top:10px;left:80px}
+.orbit-dot.two{bottom:25px;right:8px}
+.orbit-dot.three{bottom:15px;left:25px}
+@keyframes rotate{to{transform:rotate(360deg)}}
+
+section{padding:95px 7%;position:relative;z-index:1}
+.section-top{text-align:center;margin-bottom:45px}
+.label{color:var(--gold);font-size:10px;text-transform:uppercase;letter-spacing:3px}
+h2{font:400 clamp(35px,5vw,55px) 'Playfair Display',serif;margin:17px 0}
+.section-top p{color:var(--muted);font-size:13px;line-height:1.8}
+
+.explore-grid{
+  max-width:1050px;margin:auto;display:grid;
+  grid-template-columns:repeat(3,1fr);gap:15px;
+}
+.card{
+  border:1px solid var(--line);
+  background:linear-gradient(145deg,#111b2b,#0b1220);
+  padding:27px;min-height:225px;transition:.3s;cursor:pointer;
+}
+.card:hover{border-color:#b39b6b;transform:translateY(-5px);background:#151e2d}
+.card-num{color:var(--gold);font-size:10px;letter-spacing:2px}
+.card-icon{font-size:27px;margin:25px 0 18px;display:block}
+.card h3{font:400 24px 'Playfair Display',serif;margin:0 0 10px}
+.card p{color:var(--muted);font-size:12px;line-height:1.8;margin:0}
+
+.panel{
+  max-width:850px;margin:auto;border:1px solid var(--line);
+  background:#0d1422e8;padding:40px;
+}
+.constellation{
+  height:260px;position:relative;overflow:hidden;
+  background:radial-gradient(ellipse,#18253a,#0a101d);
+  border:1px solid #283247;margin:25px 0;
+}
+.constellation svg{width:100%;height:100%;position:absolute;inset:0}
+.star-point{
+  position:absolute;width:17px;height:17px;border-radius:50%;
+  background:var(--gold);border:4px solid #d6bd8640;
+  box-shadow:0 0 20px #d6bd8690;cursor:pointer;transition:.3s;
+}
+.star-point:hover{transform:scale(1.5);box-shadow:0 0 32px #d6bd86}
+.star-point.active{background:white}
+.star-readout{min-height:80px;padding:12px 0}
+.star-readout strong{font:400 24px 'Playfair Display',serif;color:var(--gold)}
+.star-readout p{color:var(--muted);font-size:13px;line-height:1.7}
+
+.message-section{background:#0d1421;border-block:1px solid #ffffff0b}
+.letter{max-width:650px;margin:auto;border-left:1px solid var(--gold);padding:10px 0 10px 30px}
+.letter p{font-size:14px;line-height:2;color:#b6bfcd}
+.letter .opening{font:400 29px 'Playfair Display',serif;color:var(--white)}
+
+.quiz{max-width:620px;margin:auto;text-align:center}
+.question{font:400 29px/1.5 'Playfair Display',serif;margin:28px 0}
+.answers{display:grid;gap:10px}
+.answer{
+  background:transparent;border:1px solid var(--line);color:var(--white);
+  padding:17px;cursor:pointer;transition:.25s;text-align:left;
+}
+.answer:hover,.answer.selected{border-color:var(--gold);color:var(--gold);background:#d6bd8610}
+#quizResult{color:var(--gold);line-height:1.8;margin-top:25px;min-height:50px}
+
+.final{
+  text-align:center;padding:125px 20px;
+  background:radial-gradient(ellipse at center,#1b2940,#080d18 70%);
+}
+.final .symbol{color:var(--gold);font-size:35px;margin:30px}
+.final p{color:var(--muted);max-width:500px;line-height:2;margin:auto;font-size:13px}
+footer{border-top:1px solid var(--line);text-align:center;padding:30px;color:#68768c;font-size:10px;letter-spacing:2px}
+
+#modal{
+  display:none;position:fixed;inset:0;z-index:100;
+  background:#050812ef;align-items:center;justify-content:center;padding:20px;
+}
+#modal.show{display:flex}
+.modal-box{
+  max-width:500px;width:100%;background:#101827;border:1px solid #b39b6b;
+  padding:38px;text-align:center;animation:appear .3s ease;
+}
+.modal-box h3{font:400 32px 'Playfair Display',serif;color:var(--gold)}
+.modal-box p{color:#b4becc;line-height:1.9;font-size:13px;white-space:pre-line}
+@keyframes appear{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+@media(max-width:720px){
+  nav{padding:0 5%;height:auto;min-height:65px;gap:10px}
+  .brand{font-size:15px}
+  .nav-links{gap:12px;font-size:10px}
+  .nav-links a:nth-child(3){display:none}
+  .hero{min-height:620px;padding-top:75px}
+  .explore-grid{grid-template-columns:1fr}
+  .card{min-height:175px}
+  section{padding:75px 6%}
+  .panel{padding:22px}
+  .letter{padding-left:18px}
+  .question{font-size:24px}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}
+}
+</style>
+</head>
+<body>
+
+<canvas id="stars"></canvas>
+
+<nav>
+  <a href="#home" class="brand">The Little <span>Universe.</span></a>
+  <div class="nav-links">
+    <a href="#home">Home</a>
+    <a href="#explore">Explore</a>
+    <a href="#constellation">Stars</a>
+    <a href="#letter">A Note</a>
+  </div>
+</nav>
+
+<header class="hero" id="home">
+  <div class="hero-inner">
+    <div class="eyebrow">A little something, just for you</div>
+    <h1>In a world of<br>billions, <em>there's you.</em></h1>
+    <p>
+      Not every special thing needs a reason.
+      Sometimes, you simply make someone's world
+      a little better by being in it.
+    </p>
+    <a href="#explore" class="btn">ENTER YOUR UNIVERSE ↗</a>
+    <div class="orbit">
+      <span class="orbit-dot one"></span>
+      <span class="orbit-dot two"></span>
+      <span class="orbit-dot three"></span>
+      <div class="orbit-core">✦</div>
+    </div>
+  </div>
+</header>
+
+<section id="explore">
+  <div class="section-top">
+    <div class="label">A world of little things</div>
+    <h2>Explore the unexpected.</h2>
+    <p>Four little corners. Each with something of its own.</p>
+  </div>
+  <div class="explore-grid">
+    <article class="card" onclick="goTo('constellation')">
+      <div class="card-num">01 / DISCOVER</div>
+      <span class="card-icon">✧</span>
+      <h3>Your Constellation</h3>
+      <p>Find the stars. Each one has something to tell you.</p>
+    </article>
+    <article class="card" onclick="goTo('letter')">
+      <div class="card-num">02 / READ</div>
+      <span class="card-icon">⌁</span>
+      <h3>A Private Note</h3>
+      <p>Some things are better said without an audience.</p>
+    </article>
+    <article class="card" onclick="goTo('quiz')">
+      <div class="card-num">03 / PLAY</div>
+      <span class="card-icon">◈</span>
+      <h3>A Tiny Personality Test</h3>
+      <p>Choose your world. Discover your kind of magic.</p>
+    </article>
+    <article class="card" onclick="openModal('The Good Things Archive','A collection of the little things worth keeping: random laughter, unexpected kindness, ridiculous jokes, and moments that become memories.')">
+      <div class="card-num">04 / UNLOCK</div>
+      <span class="card-icon">▤</span>
+      <h3>The Good Things Archive</h3>
+      <p>A reminder that ordinary moments can be extraordinary.</p>
+    </article>
+    <article class="card" onclick="openModal('A Thought for Today','You do not have to be extraordinary every day. You are allowed to rest, make mistakes, change your mind, and start again. You are enough, even on your quietest days.')">
+      <div class="card-num">05 / KEEP</div>
+      <span class="card-icon">⌘</span>
+      <h3>A Thought for Today</h3>
+      <p>A small reminder to take with you when you leave.</p>
+    </article>
+    <article class="card" onclick="openFinal()">
+      <div class="card-num">06 / THE END?</div>
+      <span class="card-icon">⟡</span>
+      <h3>One Last Secret</h3>
+      <p>Well, of course I couldn't leave without one more thing.</p>
+    </article>
+  </div>
+</section>
+
+<section id="constellation">
+  <div class="section-top">
+    <div class="label">Coordinates of appreciation</div>
+    <h2>A constellation named you.</h2>
+    <p>Click each star. Some things deserve to be said out loud.</p>
+  </div>
+  <div class="panel">
+    <div class="label">PERSONAL STAR MAP · NO. 001</div>
+    <div class="constellation" id="sky">
+      <svg viewBox="0 0 600 260" preserveAspectRatio="none">
+        <path d="M65 65 L190 125 L305 55 L420 150 L530 75" stroke="#d6bd8655" fill="none" stroke-width="1"/>
+        <path d="M190 125 L230 210 L420 150" stroke="#d6bd8635" fill="none" stroke-width="1"/>
+      </svg>
+    </div>
+    <div class="star-readout" aria-live="polite">
+      <strong id="starTitle">Choose a star.</strong>
+      <p id="starText">A little message is waiting somewhere in this sky.</p>
+    </div>
+  </div>
+</section>
+
+<section class="message-section" id="letter">
+  <div class="section-top">
+    <div class="label">Not a special occasion</div>
+    <h2>Just because.</h2>
+  </div>
+  <div class="letter">
+    <p class="opening">Hey, Cheche.</p>
+    <p>
+      I don't think we need a birthday, a celebration, or
+      some big occasion to tell someone they matter.
+    </p>
+    <p>
+      So here's a little reminder: I'm glad you're part of my
+      world. I hope life gives you enough reasons to laugh,
+      enough courage to chase the things you want, and enough
+      good people to remind you that you never have to do
+      everything alone.
+    </p>
+    <p>
+      Keep becoming whoever you want to be.
+      Make mistakes. Try new things. Collect ridiculous stories.
+      Never feel like you need to have everything figured out.
+    </p>
+    <p>
+      And whenever life gets a little too serious,
+      remember there's someone who made an entire
+      website just to make you smile.
+    </p>
+    <p style="color:var(--gold);font-family:'Playfair Display',serif;font-size:23px">
+      Always in your corner.
+    </p>
+    <p style="color:var(--gold);font-family:'Playfair Display',serif;font-size:18px">
+      — With love, your favourite person ♡
+    </p>
+  </div>
+</section>
+
+<section id="quiz">
+  <div class="section-top">
+    <div class="label">A tiny detour</div>
+    <h2>Choose your universe.</h2>
+    <p>No wrong answers. Just vibes.</p>
+  </div>
+  <div class="panel quiz">
+    <div class="label">QUESTION 01 / 01</div>
+    <div class="question">If you could disappear somewhere for one day, where would you go?</div>
+    <div class="answers">
+      <button class="answer" onclick="choose(this,'ocean')">The ocean, with absolutely no plans.</button>
+      <button class="answer" onclick="choose(this,'city')">A city I've never explored.</button>
+      <button class="answer" onclick="choose(this,'mountains')">A quiet cabin in the mountains.</button>
+      <button class="answer" onclick="choose(this,'home')">Home, snacks, and my favourite people.</button>
+    </div>
+    <div id="quizResult" aria-live="polite">Pick one to reveal your little personality reading.</div>
+    <button class="btn outline" onclick="resetQuiz()">TRY AGAIN ↻</button>
+  </div>
+</section>
+
+<section class="final" id="final">
+  <div class="label">Before you go</div>
+  <div class="symbol">✧</div>
+  <h2>Some people make<br>life feel more like life.</h2>
+  <p>
+    This little universe is not made of stars or galaxies.
+    It's made of appreciation, a few carefully chosen words,
+    and the hope that someone smiles when they see it.
+  </p>
+  <button class="btn" onclick="openFinal()">OPEN THE LAST SECRET ↗</button>
+</section>
+
+<footer>MADE WITH THOUGHT · THE LITTLE UNIVERSE · FOR MY CHECHE</footer>
+
+<div id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal-box">
+    <div style="color:var(--gold);font-size:30px">✦</div>
+    <h3 id="modalTitle">A little something</h3>
+    <p id="modalText"></p>
+    <button class="btn" onclick="closeModal()">CLOSE THIS LITTLE WINDOW</button>
+  </div>
+</div>
+
+<script>
+const canvas = document.getElementById('stars');
+const ctx = canvas.getContext('2d');
+let stars = [], w, h;
+
+function resize() {
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  w = window.innerWidth;
+  h = window.innerHeight;
+  canvas.width = w * dpr;
+  canvas.height = h * dpr;
+  canvas.style.width = w + 'px';
+  canvas.style.height = h + 'px';
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  stars = Array.from({length:Math.min(140,Math.floor(w/7))},()=>({
+    x:Math.random()*w,
+    y:Math.random()*h,
+    r:Math.random()*1.3+.2,
+    a:Math.random()*.55+.15,
+    speed:Math.random()*.008+.002
+  }));
+}
+
+function draw() {
+  ctx.clearRect(0,0,w,h);
+  stars.forEach(s=>{
+    s.a += s.speed * (Math.random()>.5?1:-1);
+    s.a = Math.max(.12,Math.min(.8,s.a));
+    ctx.beginPath();
+    ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+    ctx.fillStyle=`rgba(230,218,190,${s.a})`;
+    ctx.fill();
+  });
+  requestAnimationFrame(draw);
+}
+window.addEventListener('resize',resize);
+resize();
+draw();
+
+function goTo(id) {
+  document.getElementById(id).scrollIntoView({behavior:'smooth'});
+}
+
+const starData = [
+  {x:10,y:25,title:'The Beginning',text:'Every great story starts somewhere. You never know which little moment will become a favourite memory.'},
+  {x:31,y:48,title:'Your Kindness',text:'Small acts of kindness often stay with people much longer than you realise.'},
+  {x:50,y:21,title:'Your Potential',text:'There are so many versions of you still waiting to be discovered. Take your time becoming them.'},
+  {x:70,y:57,title:'Your Laughter',text:'May you always find people with whom you can laugh until you forget what you were laughing about.'},
+  {x:88,y:29,title:'Your Future',text:'I hope the future surprises you in all the right ways. There is so much good still ahead.'},
+  {x:38,y:80,title:'A Little Reminder',text:'You do not have to earn your worth. You were never a project that needed fixing.'}
+];
+
+const sky = document.getElementById('sky');
+starData.forEach(s=>{
+  const button = document.createElement('button');
+  button.className='star-point';
+  button.style.left=s.x+'%';
+  button.style.top=s.y+'%';
+  button.setAttribute('aria-label',s.title);
+  button.onclick=()=>{
+    document.querySelectorAll('.star-point').forEach(b=>b.classList.remove('active'));
+    button.classList.add('active');
+    document.getElementById('starTitle').textContent=s.title;
+    document.getElementById('starText').textContent=s.text;
+  };
+  sky.appendChild(button);
+});
+
+const quizResults = {
+  ocean:'THE FREE SPIRIT — You crave space, possibilities, and the freedom to simply exist without a schedule.',
+  city:'THE EXPLORER — You find excitement in the unknown. New places, new stories, new versions of yourself.',
+  mountains:'THE QUIET DREAMER — You appreciate depth over noise and know that peace can be its own adventure.',
+  home:'THE HEART KEEPER — To you, the best place in the world is wherever your favourite people happen to be.'
+};
+
+function choose(button,key){
+  document.querySelectorAll('.answer').forEach(b=>b.classList.remove('selected'));
+  button.classList.add('selected');
+  document.getElementById('quizResult').textContent=quizResults[key];
+}
+
+function resetQuiz(){
+  document.querySelectorAll('.answer').forEach(b=>b.classList.remove('selected'));
+  document.getElementById('quizResult').textContent='Pick one to reveal your little personality reading.';
+}
+
+function openModal(title,message){
+  document.getElementById('modalTitle').textContent=title;
+  document.getElementById('modalText').textContent=message;
+  document.getElementById('modal').classList.add('show');
+}
+
+function closeModal(){
+  document.getElementById('modal').classList.remove('show');
+}
+
+function openFinal(){
+  openModal(
+    'For My Cheche',
+    'You are allowed to take life one day at a time. You are allowed to change your plans, grow at your own pace, and be proud of the little things.\\n\\nAnd no matter how much life changes, I hope you never forget that you are appreciated, exactly as you are.\\n\\nThank you for being you. I am always cheering for you.\\n\\n— With love, your favourite person ♡'
+  );
+}
+
+document.getElementById('modal').addEventListener('click',e=>{
+  if(e.target.id==='modal')closeModal();
+});
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape')closeModal();
+});
+</script>
+</body>
+</html>
